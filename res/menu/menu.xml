@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/search" 
+		android:title="Buscar" />
+	<item android:title="Ajustes"
+		android:id="@+id/my_tools" />
+	<item android:title="No leídos"
+		android:id="@+id/visibility"/>
+</menu>

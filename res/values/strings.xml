@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EnPolonia</string>
+
+    <string name="loading">Loading...</string> 
+    <string name="share">Share</string>   
+    
+    <string name="local_service_started">Actualización habilitada</string>
+    <string name="local_service_stopped">Actualización deshabilitada</string>
+    
+    <string name="new_entries">Hay %d nuevas entradas publicadas.</string>
+    
+</resources>

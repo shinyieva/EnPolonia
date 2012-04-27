@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+	android:id="@+id/list_container" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="#1a6a8b">
+
+	<include layout="@layout/loader_transparent">
+	</include>
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:background="#1a6a8b"
+		android:orientation="vertical"> <!-- #01476c -->
+
+		<com.google.ads.AdView android:id="@+id/adView"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			ads:adSize="BANNER" ads:adUnitId="a14edb602c1f981"
+			ads:loadAdOnCreate="true" />
+
+		<ListView android:id="@+id/ListView" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:cacheColorHint="@color/transparent"
+			android:dividerHeight="0dp"> <!-- evita que cambie el color al hacer scroll, lo pongo transparente -->
+		</ListView>
+
+		<TextView android:id="@android:id/empty"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:background="#FF0000" android:text="No elements" />
+	</LinearLayout>
+
+</LinearLayout>
