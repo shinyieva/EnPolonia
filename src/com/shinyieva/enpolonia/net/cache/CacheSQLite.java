@@ -68,13 +68,6 @@ public class CacheSQLite {
 
 	private static final String _FIELD_UNREAD = "Unread";
 
-	/*
-	 * private static final String[] _FIELDS = new String[] { _FIELD_GUID,
-	 * _FIELD_TITLE, _FIELD_LINK, _FIELD_DESCRIPTION, _FIELD_DATE,
-	 * _FIELD_CREATOR, _FIELD_URLCOMM, _FIELD_NUMCOMM, _FIELD_CONTENT,
-	 * _FIELD_UNREAD};
-	 */
-
 	private final DBHelper _DBHelper;
 
 	public CacheSQLite(Context p_context) {
@@ -160,26 +153,6 @@ public class CacheSQLite {
 															// the Table
 
 			}
-			/*
-			 * if (cur.moveToFirst()) { do { temp = new ArrayList<Cache>();
-			 * Log.d(AppSettings.TAG_LOG,
-			 * "get("+String.valueOf(cur.getPosition())+")["+
-			 * cur.getString(cur.getColumnIndex(_FIELD_GUID)) +"]");
-			 * temp.add(new
-			 * Cache(cur.getString(cur.getColumnIndex(_FIELD_GUID)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_TITLE)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_LINK)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_DESCRIPTION)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_DATE)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_CREATOR)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_URLCOMM)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_NUMCOMM)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_CONTENT)),
-			 * cur.getString(cur.getColumnIndex(_FIELD_UNREAD)))); // "Title" is
-			 * the field name(column) of the Table
-			 * 
-			 * } while (cur.moveToNext()); }
-			 */
 		}
 
 		cur.close();
@@ -214,25 +187,17 @@ public class CacheSQLite {
 		values.put(_FIELD_UNREAD, p_unread);
 
 		SQLiteDatabase db = this._DBHelper.getWritableDatabase();
+
 		Cursor cursor = db.query(_TABLE_NAME, new String[] { _FIELD_GUID },
 				_FIELD_GUID + "=?", new String[] { p_guid }, null, null, null);
 
-		if (cursor != null) {
+		if (cursor != null && db.isOpen()) {
 			if (cursor.getCount() == 0) {
 				// Creamos el registro
 				Log.d("CacheSQLite", "SetByServiceUri: CREATE p_serviceURL["
 						+ p_guid + "]...");
 				db.insert(_TABLE_NAME, null, values);
 			}
-			// else {
-			// // Actualizamos su valor
-			// Log.d("CacheSQLite", "SetByServiceUri: UPDATE p_serviceURL["
-			// + p_guid + "]...");
-			// cursor.moveToFirst();
-			// final String where = _FIELD_GUID + "=?";
-			// db.update(_TABLE_NAME, values, where,
-			// new String[] { cursor.getString(_FIELD_GUID_POS) });
-			// }
 			cursor.close();
 		}
 

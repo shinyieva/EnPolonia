@@ -2,9 +2,9 @@ package com.shinyieva.enpolonia;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.app.Application;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -18,7 +18,7 @@ import com.shinyieva.enpolonia.sdl.data.VisibilityMode;
 
 public class EnPoloniaApp extends Application {
 
-	private HashMap<String, Entry> _EntriesMap;
+	private ConcurrentHashMap<String, Entry> _EntriesMap;
 	private Updater localService;
 	private int newEntriesCount;
 
@@ -32,7 +32,7 @@ public class EnPoloniaApp extends Application {
 
 		int newEntries = 0;
 		if (this._EntriesMap == null) {
-			this._EntriesMap = new HashMap<String, Entry>();
+			this._EntriesMap = new ConcurrentHashMap<String, Entry>();
 		}
 
 		for (int i = 0; i < entries.size(); i++) {
@@ -66,7 +66,7 @@ public class EnPoloniaApp extends Application {
 	public ArrayList<Entry> getEntries(VisibilityMode mode) {
 
 		if (this._EntriesMap == null || this._EntriesMap.isEmpty()) {
-			this._EntriesMap = new HashMap<String, Entry>();
+			this._EntriesMap = new ConcurrentHashMap<String, Entry>();
 			// OBTENCION DE DATOS DE LA CACHE
 			try {
 				CacheSQLite.Init(this.localService, this.getPackageManager()
@@ -137,4 +137,5 @@ public class EnPoloniaApp extends Application {
 	public int getNewEntriesCount() {
 		return this.newEntriesCount;
 	}
+
 }

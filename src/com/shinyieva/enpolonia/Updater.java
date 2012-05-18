@@ -8,7 +8,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -51,10 +54,6 @@ public class Updater extends Service {
 		this.app = (EnPoloniaApp) this.getApplication();
 		this.mNM = (NotificationManager) this
 				.getSystemService(NOTIFICATION_SERVICE);
-
-		// Display a notification about us starting. We put an icon in the
-		// status bar.
-		// this.showNotification();
 
 		HandlerThread thread = new HandlerThread("ServiceUserData",
 				Process.THREAD_PRIORITY_BACKGROUND);
@@ -99,7 +98,11 @@ public class Updater extends Service {
 		this.timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				if (Updater.this.mServiceHandler != null) {
+				ConnectivityManager conMgr = (ConnectivityManager) Updater.this
+						.getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+				if (Updater.this.mServiceHandler != null
+						&& activeNetwork.isConnectedOrConnecting()) {
 					Updater.this.mServiceHandler.sendEmptyMessage(69);
 				}
 			}

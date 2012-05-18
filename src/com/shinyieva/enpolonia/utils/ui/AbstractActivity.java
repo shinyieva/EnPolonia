@@ -11,7 +11,7 @@ import com.shinyieva.enpolonia.EnPoloniaApp;
 import com.shinyieva.enpolonia.R;
 import com.shinyieva.enpolonia.Updater;
 import com.shinyieva.enpolonia.sdl.data.VisibilityMode;
-import com.shinyieva.enpolonia.settings.AppSettings;
+import com.shinyieva.enpolonia.ui.About;
 
 public class AbstractActivity extends Activity {
 
@@ -31,16 +31,18 @@ public class AbstractActivity extends Activity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.my_tools).setVisible(true);
-		menu.findItem(R.id.search).setVisible(true);
+		menu.findItem(R.id.my_tools).setVisible(false);
+		menu.findItem(R.id.search).setVisible(false);
+		//
+		// if (AppSettings.visibilityMode == VisibilityMode.All) {
+		// menu.findItem(R.id.visibility).setTitle("No le’dos");
+		// } else {
+		// menu.findItem(R.id.visibility).setTitle("Ver Todos");
+		// }
+		menu.findItem(R.id.visibility).setVisible(false);
 
-		if (AppSettings.visibilityMode == VisibilityMode.All) {
-			menu.findItem(R.id.visibility).setTitle("No le’dos");
-		} else {
-			menu.findItem(R.id.visibility).setTitle("Ver Todos");
-		}
-		menu.findItem(R.id.visibility).setVisible(true);
-		return false;
+		menu.findItem(R.id.about).setVisible(true);
+		return true;
 	}
 
 	@Override
@@ -57,6 +59,12 @@ public class AbstractActivity extends Activity {
 				aux = VisibilityMode.All;
 			}
 			this._Listener.onVisibilityChanged(aux);
+			return true;
+		case R.id.about:
+			Intent i = new Intent(this, About.class);
+
+			this.startActivity(i);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

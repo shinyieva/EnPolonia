@@ -6,4 +6,6 @@
 		android:id="@+id/my_tools" />
 	<item android:title="No leídos"
 		android:id="@+id/visibility"/>
+	<item android:title="Acerca de"
+		android:id="@+id/about"/>
 </menu>
