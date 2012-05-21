@@ -16,6 +16,7 @@ import com.shinyieva.enpolonia.sdl.data.VisibilityMode;
 public class EntryService {
 
 	private final EnPoloniaApp _application;
+	private final String Tag = "EntryService";
 
 	public EntryService(EnPoloniaApp app) {
 		this._application = app;
@@ -26,6 +27,8 @@ public class EntryService {
 	}
 
 	public List<Entry> getEntries(String url, boolean p_save, boolean p_creator) {
+		Log.i(this.Tag, "getEntries( " + url + " , " + String.valueOf(p_save)
+				+ " , " + String.valueOf(p_creator) + " ) ");
 		List<Entry> noticias = new ArrayList<Entry>();
 
 		noticias = this._application.getEntries(VisibilityMode.All);
@@ -52,7 +55,7 @@ public class EntryService {
 	}
 
 	public List<Entry> getEntries(ArrayList<Cache> p_entries) {
-
+		Log.i(this.Tag, "getEntries(ArrayList<Cache>)");
 		List<Entry> temp = new ArrayList<Entry>();
 
 		for (int i = 0; i < p_entries.size(); i++) {

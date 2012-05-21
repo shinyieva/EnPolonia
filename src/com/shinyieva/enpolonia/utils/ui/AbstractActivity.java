@@ -12,6 +12,7 @@ import com.shinyieva.enpolonia.R;
 import com.shinyieva.enpolonia.Updater;
 import com.shinyieva.enpolonia.sdl.data.VisibilityMode;
 import com.shinyieva.enpolonia.ui.About;
+import com.shinyieva.enpolonia.ui.SettingsUi;
 
 public class AbstractActivity extends Activity {
 
@@ -31,7 +32,7 @@ public class AbstractActivity extends Activity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.my_tools).setVisible(false);
+		menu.findItem(R.id.my_tools).setVisible(true);
 		menu.findItem(R.id.search).setVisible(false);
 		//
 		// if (AppSettings.visibilityMode == VisibilityMode.All) {
@@ -41,7 +42,7 @@ public class AbstractActivity extends Activity {
 		// }
 		menu.findItem(R.id.visibility).setVisible(false);
 
-		menu.findItem(R.id.about).setVisible(true);
+		menu.findItem(R.id.about).setVisible(false);
 		return true;
 	}
 
@@ -61,9 +62,14 @@ public class AbstractActivity extends Activity {
 			this._Listener.onVisibilityChanged(aux);
 			return true;
 		case R.id.about:
-			Intent i = new Intent(this, About.class);
+			Intent about = new Intent(this, About.class);
 
-			this.startActivity(i);
+			this.startActivity(about);
+			return true;
+		case R.id.my_tools:
+			Intent settings = new Intent(this, SettingsUi.class);
+
+			this.startActivity(settings);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

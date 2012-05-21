@@ -166,14 +166,19 @@ public class Updater extends Service {
 
 		// The PendingIntent to launch our activity if the user selects this
 		// notification
+
+		Intent fromNot = new Intent(this, MainActivity.class);
+		fromNot.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, MainActivity.class), 0);
+				fromNot, 0);
 
 		// Set the info for the views that show in the notification panel.
 		notification.setLatestEventInfo(this, this.getText(R.string.app_name),
 				text, contentIntent);
 
 		// Send the notification.
+		this.mNM.cancel(this.NOTIFICATION);
 		this.mNM.notify(this.NOTIFICATION, notification);
 	}
 

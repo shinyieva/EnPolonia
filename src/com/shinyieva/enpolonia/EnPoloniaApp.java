@@ -21,6 +21,7 @@ public class EnPoloniaApp extends Application {
 	private ConcurrentHashMap<String, Entry> _EntriesMap;
 	private Updater localService;
 	private int newEntriesCount;
+	private final String Tag = "EnPoloniaApp";
 
 	public boolean isOffLine() {
 
@@ -28,11 +29,11 @@ public class EnPoloniaApp extends Application {
 	}
 
 	public int setEntries(ArrayList<Entry> entries) {
-		Log.i("EnPolonia", "EnPoloniaApp.setEntries");
+		Log.i(this.Tag, "setEntries(ArrayList<Entry>)");
 
 		int newEntries = 0;
 		if (this._EntriesMap == null) {
-			this._EntriesMap = new ConcurrentHashMap<String, Entry>();
+			this.getEntries(VisibilityMode.All);
 		}
 
 		for (int i = 0; i < entries.size(); i++) {
@@ -64,7 +65,7 @@ public class EnPoloniaApp extends Application {
 	}
 
 	public ArrayList<Entry> getEntries(VisibilityMode mode) {
-
+		Log.i(this.Tag, "getEntries(VisibilityMode)");
 		if (this._EntriesMap == null || this._EntriesMap.isEmpty()) {
 			this._EntriesMap = new ConcurrentHashMap<String, Entry>();
 			// OBTENCION DE DATOS DE LA CACHE
@@ -99,14 +100,14 @@ public class EnPoloniaApp extends Application {
 				}
 			}
 		} catch (Exception e) {
-			Log.e("EnPolonia", "Algo ha ido mal en EnPoloniaApp.getEntries.");
+			Log.e(this.Tag, "Algo ha ido mal en EnPoloniaApp.getEntries.");
 		}
 
 		return temp;
 	}
 
 	public boolean setUnread(String id) {
-
+		Log.i(this.Tag, "setUnread(" + id + ")");
 		if (this._EntriesMap.containsKey(id)) {
 			Entry e = new Entry();
 			e = this._EntriesMap.get(id);

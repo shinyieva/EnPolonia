@@ -47,7 +47,7 @@ public class EntryList extends AbstractActivity implements Runnable,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.list_view);
+		this.setContentView(R.layout.list_view_ad);
 
 		this._application = ((EnPoloniaApp) this.getApplication());
 

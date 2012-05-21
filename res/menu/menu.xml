@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:id="@+id/search" 
-		android:title="Buscar" />
+		android:title="Buscar" 
+		android:icon="@android:drawable/ic_menu_search"/>
 	<item android:title="Ajustes"
-		android:id="@+id/my_tools" />
+		android:id="@+id/my_tools" 
+		android:icon="@android:drawable/ic_menu_preferences"/>
 	<item android:title="No leídos"
 		android:id="@+id/visibility"/>
 	<item android:title="Acerca de"
-		android:id="@+id/about"/>
+		android:id="@+id/about"
+		android:icon="@android:drawable/ic_menu_info_details"/>
 </menu>
