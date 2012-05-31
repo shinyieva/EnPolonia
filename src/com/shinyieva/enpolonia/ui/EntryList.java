@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.shinyieva.enpolonia.EnPoloniaApp;
 import com.shinyieva.enpolonia.R;
 import com.shinyieva.enpolonia.net.cache.CacheSQLite;
 import com.shinyieva.enpolonia.sdl.EntryService;
@@ -32,7 +31,6 @@ public class EntryList extends AbstractActivity implements Runnable,
 
 	private List<Entry> _Rows;
 
-	private EnPoloniaApp _application;
 	private String _url = "";
 
 	private ArrayList<IconListViewRow> _IconListViewRows;
@@ -49,7 +47,7 @@ public class EntryList extends AbstractActivity implements Runnable,
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.list_view_ad);
 
-		this._application = ((EnPoloniaApp) this.getApplication());
+		// this._application = ((EnPoloniaApp) this.getApplication());
 
 		this._ListView = (ListView) this.findViewById(R.id.ListView);
 		this._ListView.setOnItemClickListener(new OnItemClickListener() {
@@ -63,13 +61,12 @@ public class EntryList extends AbstractActivity implements Runnable,
 
 		this._IconListViewRows = new ArrayList<IconListViewRow>();
 		this._IconListView = new IconListView(this, this,
-				R.layout.list_view_row, this._IconListViewRows,
-				this._application);
+				R.layout.list_view_row, this._IconListViewRows, this.app);
 		this._ListView.setAdapter(this._IconListView);
 
 		this.findViewById(R.id.loader).setVisibility(View.VISIBLE);
 
-		this._Rows = this._application.getEntries(this.visibilityMode);
+		this._Rows = this.app.getEntries(this.visibilityMode);
 
 		if (this._Rows != null && this._Rows.size() > 0
 				&& !this.getIntent().hasExtra("creator")) {
@@ -89,7 +86,7 @@ public class EntryList extends AbstractActivity implements Runnable,
 		adView.loadAd(new AdRequest());
 
 		if (this._Rows != null && !this.getIntent().hasExtra("creator")) {
-			this._Rows = this._application.getEntries(this.visibilityMode);
+			this._Rows = this.app.getEntries(this.visibilityMode);
 			this._LoadUi();
 		}
 
@@ -126,7 +123,7 @@ public class EntryList extends AbstractActivity implements Runnable,
 
 	private List<Entry> _LoadData() {
 
-		this._entryS = new EntryService(this._application);
+		this._entryS = new EntryService(this.app);
 		boolean save = true;
 		boolean creator = false;
 		if (this.getIntent().hasExtra("creator")) {
@@ -157,7 +154,7 @@ public class EntryList extends AbstractActivity implements Runnable,
 				}
 				EntryList.this._task = (DBTask) new DBTask().execute();
 
-				EntryList.this._Rows = EntryList.this._application
+				EntryList.this._Rows = EntryList.this.app
 						.getEntries(EntryList.this.visibilityMode);
 
 				EntryList.this._LoadUi();
@@ -174,7 +171,7 @@ public class EntryList extends AbstractActivity implements Runnable,
 		@Override
 		protected Integer doInBackground(Void... arg0) {
 
-			ArrayList<Entry> entries = EntryList.this._application
+			ArrayList<Entry> entries = EntryList.this.app
 					.getEntries(VisibilityMode.All);
 
 			if (entries != null) {

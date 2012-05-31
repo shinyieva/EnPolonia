@@ -119,39 +119,48 @@ public class CacheSQLite {
 	public ArrayList<Cache> GetAll() {
 		Log.d(Tag, "GetAll");
 
-		SQLiteDatabase db = this._DBHelper.getReadableDatabase();
+		if (this._DBHelper != null) {
+			SQLiteDatabase db = this._DBHelper.getReadableDatabase();
 
-		// SELECT * FROM entry_cache ORDER BY Date DESC;
-		Cursor cur = db.query(true, _TABLE_NAME, null, null, null, null, null,
-				_FIELD_DATE + " DESC", null);
+			// SELECT * FROM entry_cache ORDER BY Date DESC;
+			Cursor cur = db.query(true, _TABLE_NAME, null, null, null, null,
+					null, _FIELD_DATE + " DESC", null);
 
-		ArrayList<Cache> temp = null;
-		if (cur != null) {
-			temp = new ArrayList<Cache>();
-			for (int i = 0; i < cur.getCount(); i++) {
-				cur.moveToNext();
-				temp.add(new Cache(cur.getString(cur
-						.getColumnIndex(_FIELD_GUID)), cur.getString(cur
-						.getColumnIndex(_FIELD_TITLE)), cur.getString(cur
-						.getColumnIndex(_FIELD_LINK)), cur.getString(cur
-						.getColumnIndex(_FIELD_DESCRIPTION)), cur.getString(cur
-						.getColumnIndex(_FIELD_DATE)), cur.getString(cur
-						.getColumnIndex(_FIELD_CREATOR)), cur.getString(cur
-						.getColumnIndex(_FIELD_URLCOMM)), cur.getString(cur
-						.getColumnIndex(_FIELD_NUMCOMM)), cur.getString(cur
-						.getColumnIndex(_FIELD_CONTENT)), cur.getString(cur
-						.getColumnIndex(_FIELD_UNREAD)))); // "Title" is the
-															// field
-															// name(column) of
-															// the Table
+			ArrayList<Cache> temp = null;
+			if (cur != null) {
+				temp = new ArrayList<Cache>();
+				for (int i = 0; i < cur.getCount(); i++) {
+					cur.moveToNext();
+					temp.add(new Cache(cur.getString(cur
+							.getColumnIndex(_FIELD_GUID)), cur.getString(cur
+							.getColumnIndex(_FIELD_TITLE)), cur.getString(cur
+							.getColumnIndex(_FIELD_LINK)), cur.getString(cur
+							.getColumnIndex(_FIELD_DESCRIPTION)), cur
+							.getString(cur.getColumnIndex(_FIELD_DATE)), cur
+							.getString(cur.getColumnIndex(_FIELD_CREATOR)), cur
+							.getString(cur.getColumnIndex(_FIELD_URLCOMM)), cur
+							.getString(cur.getColumnIndex(_FIELD_NUMCOMM)), cur
+							.getString(cur.getColumnIndex(_FIELD_CONTENT)), cur
+							.getString(cur.getColumnIndex(_FIELD_UNREAD)))); // "Title"
+																				// is
+																				// the
+																				// field
+																				// name(column)
+																				// of
+																				// the
+																				// Table
 
+				}
 			}
+
+			cur.close();
+			db.close();
+
+			return temp;
+		} else {
+			return null;
 		}
 
-		cur.close();
-		db.close();
-
-		return temp;
 	}
 
 	public void Set(String p_guid, String p_title, String p_link,

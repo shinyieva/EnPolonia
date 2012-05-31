@@ -2,6 +2,7 @@ package com.shinyieva.enpolonia.utils.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,14 @@ public class AbstractActivity extends Activity {
 	private onVisibilityModeChange _Listener;
 	protected EnPoloniaApp app;
 	protected Intent mServiceIntent;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+
+		this.app = (EnPoloniaApp) this.getApplicationContext();
+
+		super.onCreate(savedInstanceState);
+	}
 
 	// Menu delegate Methods
 	@Override
