@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
@@ -22,6 +23,16 @@ public class EnPoloniaApp extends Application {
 	private Updater localService;
 	private int newEntriesCount;
 	private final String Tag = "EnPoloniaApp";
+	private int updateOffset;
+
+	@Override
+	public void onCreate() {
+
+		SharedPreferences settings = this.getSharedPreferences(
+				this.getString(R.string.app_name), MODE_PRIVATE);
+		this.setUpdateInterval(settings.getInt("updateOffset", 10));
+		super.onCreate();
+	}
 
 	public boolean isOffLine() {
 
@@ -139,4 +150,24 @@ public class EnPoloniaApp extends Application {
 		return this.newEntriesCount;
 	}
 
+	public void setUpdateInterval(int time) {
+		this.updateOffset = time;
+
+		if (this.getLocalService() != null) {
+			this.getLocalService().reset();
+		}
+
+		SharedPreferences settings = this.getSharedPreferences(
+				this.getString(R.string.app_name), MODE_PRIVATE);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt("updateOffset", this.updateOffset);
+		editor.commit();
+
+		Log.i(this.Tag,
+				"Save updateOffset = " + String.valueOf(this.updateOffset));
+	}
+
+	public int getUpdateOffset() {
+		return this.updateOffset;
+	}
 }

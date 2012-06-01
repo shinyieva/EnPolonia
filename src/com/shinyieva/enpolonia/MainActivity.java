@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.os.Process;
 import android.util.Log;
 
 import com.shinyieva.enpolonia.net.cache.Cache;
@@ -25,23 +24,32 @@ public class MainActivity extends AbstractActivity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
 
-		// this.app = (EnPoloniaApp) this.getApplication();
+		this.Tag = this.getClass().getName();
 
 		if (this.app.getLocalService() != null) {
 			this.app.getLocalService().onDestroy();
 		}
-		// doBindService();
-		int versionCode = 2;
-		try {
-			versionCode = this.getPackageManager().getPackageInfo(
-					this.getPackageName(), 0).versionCode;
-		} catch (NameNotFoundException e) {
-			Log.e("EnPolonia", "[MainActivity]Error al obtener versionCode. "
-					+ e.getLocalizedMessage());
-		}
+
+		// int versionCode = 2;
+		// try {
+		// versionCode = this.getPackageManager().getPackageInfo(
+		// this.getPackageName(), 0).versionCode;
+		// } catch (NameNotFoundException e) {
+		// Log.e("EnPolonia", "[MainActivity]Error al obtener versionCode. "
+		// + e.getLocalizedMessage());
+		// }
 
 		// INICIALIZACION DE CACHE
-		CacheSQLite.Init(this.app, versionCode);
+		try {
+			CacheSQLite.Init(
+					this.app,
+					this.getPackageManager().getPackageInfo(
+							this.getPackageName(), 0).versionCode);
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			Log.e(this.Tag,
+					"Hubo algœn problema al intntar inicializar CacheSQLite");
+		}
 
 		// OBTENCION DE DATOS DE LA CACHE
 		ArrayList<Cache> data = CacheSQLite.Current().GetAll();
@@ -61,15 +69,9 @@ public class MainActivity extends AbstractActivity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
+		// Si no se pone al dar a back en el listado rearranca
 		this.finish();
 	}
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		int pid = Process.myPid();
-		Process.killProcess(pid);
-	}
 }

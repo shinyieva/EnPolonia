@@ -11,4 +11,17 @@
     
     <string name="new_entries">Hay %d nuevas entradas publicadas.</string>
     
+    <!--  "Nunca", "Cada 5 minutos",
+				"Cada 10 minutos", "Cada 15 minutos", "Cada 20 minutos",
+				"Cada 25 minutos", "Cada 30 minutos", "Cada hora" -->
+    
+    <string name="update.interval">"Frecuencia de actualización"</string>
+    <string name="update.never">Nunca</string>
+    <string name="update.each_5">Cada 5 minutos</string>
+    <string name="update.each_10">Cada 10 minutos</string>
+    <string name="update.each_15">Cada 15 minutos</string>
+    <string name="update.each_20">Cada 20 minutos</string>
+    <string name="update.each_25">Cada 25 minutos</string>
+    <string name="update.each_30">Cada 30 minutos</string>
+    <string name="update.each_hour">Cada hora</string>
 </resources>

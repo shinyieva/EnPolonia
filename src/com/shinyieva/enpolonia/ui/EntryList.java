@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Process;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -166,7 +167,6 @@ public class EntryList extends AbstractActivity implements Runnable,
 	/*
 	 * Tarea as’ncrona de actualizaci—n/almacenamiento de base de datos
 	 */
-
 	private class DBTask extends AsyncTask<Void, Void, Integer> {
 		@Override
 		protected Integer doInBackground(Void... arg0) {
@@ -192,10 +192,6 @@ public class EntryList extends AbstractActivity implements Runnable,
 
 		}
 
-		// protected void onProgressUpdate() {
-		//
-		// }
-
 		@Override
 		protected void onPostExecute(Integer action) {
 
@@ -208,6 +204,13 @@ public class EntryList extends AbstractActivity implements Runnable,
 		this.visibilityMode = mode;
 
 		this._LoadUi();
+	}
+
+	@Override
+	public void onBackPressed() {
+		// super.onBackPressed();
+		int pid = Process.myPid();
+		Process.killProcess(pid);
 	}
 
 }

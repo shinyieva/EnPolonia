@@ -20,6 +20,7 @@ public class AbstractActivity extends Activity {
 	private onVisibilityModeChange _Listener;
 	protected EnPoloniaApp app;
 	protected Intent mServiceIntent;
+	protected String Tag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

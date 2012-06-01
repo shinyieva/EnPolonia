@@ -55,6 +55,13 @@ public class Updater extends Service {
 		this.mNM = (NotificationManager) this
 				.getSystemService(NOTIFICATION_SERVICE);
 
+		this.init();
+		// this.startTimer();
+
+	}
+
+	public void init() {
+		Log.i(this.Tag, "init[Updater]");
 		HandlerThread thread = new HandlerThread("ServiceUserData",
 				Process.THREAD_PRIORITY_BACKGROUND);
 		thread.start();
@@ -65,8 +72,6 @@ public class Updater extends Service {
 		this.mServiceLooper = thread.getLooper();
 		this.mServiceHandler = new ServiceHandler(this.mServiceLooper);
 		this.app.setLocalService(this);
-
-		this.startTimer();
 	}
 
 	@Override
@@ -78,7 +83,8 @@ public class Updater extends Service {
 			this.timer = new Timer();
 		}
 		if ((intent != null) && intent.hasExtra("forceTimer")
-				&& intent.getExtras().getBoolean("forceTimer")) {
+				&& intent.getExtras().getBoolean("forceTimer")
+				&& this.app.getUpdateOffset() > 0) {
 			this.startTimer();
 		}
 
@@ -86,7 +92,9 @@ public class Updater extends Service {
 	}
 
 	private void startTimer() {
-		Log.d(this.Tag, "startTimer");
+		Log.d(this.Tag,
+				"startTimer with IntervalOffset = "
+						+ String.valueOf(this.app.getUpdateOffset()) + "min");
 		if (this.timer != null) {
 			this.timer.cancel();
 		}
@@ -106,7 +114,7 @@ public class Updater extends Service {
 					Updater.this.mServiceHandler.sendEmptyMessage(69);
 				}
 			}
-		}, 0, this.INTERVAL);
+		}, 0, this.INTERVAL * this.app.getUpdateOffset());
 	}
 
 	private void stopTimer() {
@@ -116,6 +124,14 @@ public class Updater extends Service {
 			this.timer.purge();
 			this.timer = null;
 			this.counter = 0;
+		}
+	}
+
+	public void reset() {
+		this.stopTimer();
+		this.init();
+		if (this.app.getUpdateOffset() > 0) {
+			this.startTimer();
 		}
 	}
 
@@ -168,6 +184,7 @@ public class Updater extends Service {
 		// notification
 
 		Intent fromNot = new Intent(this, MainActivity.class);
+
 		fromNot.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
